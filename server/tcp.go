@@ -83,8 +83,9 @@ func (h *HEPInput) handleStream(c net.Conn, protocol string) {
 			return
 		} else {
 			size := binary.BigEndian.Uint16(hb[4:6])
-			if size > maxPktLen {
+			if size > maxPktLen || size == 0 {
 				logp.Warn("wrong or too big HEP packet size with %d bytes", size)
+				logp.Warn("hb: % x", hb)
 				//r.Reset(c)
 				//continue
 				return
